@@ -92,7 +92,7 @@
         <canvas id="vizA"></canvas>
       </div>
 
-      <!-- Master Panel -->
+      
       <div class="deck">
         <h3>Master Panel</h3>
         <span class="label">Crossfader</span>
@@ -143,7 +143,7 @@
   </section>
 
   <script>
-  // --- Utility
+  
   const fmt=s=>{if(!isFinite(s))return"00:00";let m=Math.floor(s/60),ss=Math.floor(s%60);return`${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`};
 
   const AudioCtx=window.AudioContext||window.webkitAudioContext;
@@ -189,7 +189,7 @@
 
     const state={el,deckGain,echoSend,feedback,cue:0,loopIn:null,loopOut:null,looping:false,analyser};
 
-    // Controls
+    
     el.playBtn.onclick=()=>{ctx.resume();if(el.audio.paused)el.audio.play();else el.audio.pause();};
     el.stopBtn.onclick=()=>{el.audio.pause();el.audio.currentTime=0};
     el.cueBtn.onclick=()=>{state.cue=el.audio.currentTime};
@@ -218,7 +218,7 @@
   
   const masterVol=document.getElementById('masterVol');masterVol.oninput=()=>masterGain.gain.value=masterVol.value;
 
-  // CPU monitor
+  
   function monitorCPU(){let last=performance.now();function step(){let now=performance.now();let load=Math.min(100,Math.abs(now-last-16)*6);document.getElementById('cpuVal').textContent=`${load.toFixed(1)}%`;document.getElementById('cpuBar').style.width=`${load}%`;last=now;requestAnimationFrame(step);}step();}
   monitorCPU();
 
@@ -234,7 +234,7 @@
   
   document.getElementById('switchBtn').onclick=()=>{if(!A.el.audio.paused){A.el.audio.pause();B.el.audio.play();}else if(!B.el.audio.paused){B.el.audio.pause();A.el.audio.play();}};
 
-  // Speech
+ 
   document.getElementById('sayBtn').onclick=()=>{let t=document.getElementById('djText').value;if(t){speechSynthesis.speak(new SpeechSynthesisUtterance(t));}};
   document.getElementById('yBtn').onclick=()=>speechSynthesis.speak(new SpeechSynthesisUtterance('Y'));
 
