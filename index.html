@@ -108,7 +108,7 @@
         </div>
       </div>
 
-      <!-- Deck B -->
+      
       <div class="deck">
         <h3>Deck B</h3>
         <input id="fileB" type="file" accept="audio/*" />
@@ -210,35 +210,35 @@
 
   const A=createDeck('A'),B=createDeck('B');
 
-  // Crossfader equal-power
+  
   const xf=document.getElementById('xfader');
   xf.oninput=()=>{let x=parseFloat(xf.value);A.deckGain.gain.value=Math.cos(x*Math.PI/2);B.deckGain.gain.value=Math.cos((1-x)*Math.PI/2);};
   xf.oninput();
 
-  // Master volume
+  
   const masterVol=document.getElementById('masterVol');masterVol.oninput=()=>masterGain.gain.value=masterVol.value;
 
   // CPU monitor
   function monitorCPU(){let last=performance.now();function step(){let now=performance.now();let load=Math.min(100,Math.abs(now-last-16)*6);document.getElementById('cpuVal').textContent=`${load.toFixed(1)}%`;document.getElementById('cpuBar').style.width=`${load}%`;last=now;requestAnimationFrame(step);}step();}
   monitorCPU();
 
-  // Visualizers
+  
   function drawViz(deck){const ctx2d=deck.el.canvas.getContext('2d');const buffer=deck.analyser.frequencyBinCount;const data=new Uint8Array(buffer);function draw(){requestAnimationFrame(draw);deck.analyser.getByteFrequencyData(data);ctx2d.fillStyle='#0f121a';ctx2d.fillRect(0,0,deck.el.canvas.width,deck.el.canvas.height);let bw=(deck.el.canvas.width/buffer)*2.5,x=0;for(let i=0;i<buffer;i++){let bh=data[i]/2;ctx2d.fillStyle='#ff4081';ctx2d.fillRect(x,deck.el.canvas.height-bh,bw,bh);x+=bw+1;}}draw();}
   drawViz(A);drawViz(B);
   function drawMaster(){const canvas=document.getElementById('vizMix');const ctx2d=canvas.getContext('2d');const buffer=mixAnalyser.frequencyBinCount;const data=new Uint8Array(buffer);function draw(){requestAnimationFrame(draw);mixAnalyser.getByteFrequencyData(data);ctx2d.fillStyle='#0f121a';ctx2d.fillRect(0,0,canvas.width,canvas.height);let bw=(canvas.width/buffer)*2.5,x=0;for(let i=0;i<buffer;i++){let bh=data[i]/2;ctx2d.fillStyle='#9fd1ff';ctx2d.fillRect(x,canvas.height-bh,bw,bh);x+=bw+1;}}draw();}
   drawMaster();
 
-  // Echo button toggle
+  
   document.getElementById('echoBtn').onclick=()=>{A.echoSend.gain.value=A.echoSend.gain.value?0:0.4;B.echoSend.gain.value=B.echoSend.gain.value?0:0.4;};
 
-  // Switch decks
+  
   document.getElementById('switchBtn').onclick=()=>{if(!A.el.audio.paused){A.el.audio.pause();B.el.audio.play();}else if(!B.el.audio.paused){B.el.audio.pause();A.el.audio.play();}};
 
   // Speech
   document.getElementById('sayBtn').onclick=()=>{let t=document.getElementById('djText').value;if(t){speechSynthesis.speak(new SpeechSynthesisUtterance(t));}};
   document.getElementById('yBtn').onclick=()=>speechSynthesis.speak(new SpeechSynthesisUtterance('Y'));
 
-  // Navigation
+  
   const home=document.getElementById('home'),app=document.getElementById('app'),about=document.getElementById('about');
   document.getElementById('startBtn').onclick=()=>{home.classList.add('hidden');app.classList.remove('hidden');about.classList.add('hidden');};
   document.getElementById('aboutBtn').onclick=()=>{app.classList.add('hidden');home.classList.add('hidden');about.classList.remove('hidden');};
